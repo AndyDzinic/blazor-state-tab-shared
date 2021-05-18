@@ -1,0 +1,26 @@
+﻿@page "/"
+@using BlazorStateTest1.Model 
+@using System.Net.Http
+@using Newtonsoft.Json 
+@inject State.AppState AppState
+@inject HttpClient HttpClient
+@implements IDisposable
+<h1>Hello, world! @AppState.NavigationState.TimeNow.ToString("dd.MM.yyyy HH:mm:ss")</h1>
+
+Welcome to your new app.
+<a class="btn btn-primary" @onclick="AppState.NavigationState.GetDateTime"> test</a>
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code {
+    public Test data { get; set; }
+    protected override async void OnInitialized()
+    {
+        State.AppState.StateChanged += async () => await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        State.AppState.StateChanged -= async () => await InvokeAsync(StateHasChanged);
+    }
+}
